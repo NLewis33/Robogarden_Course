@@ -1,0 +1,99 @@
+#####
+#Project: Bank Account
+#Date: 13 October 2023
+#Author: Nickolas Lewis
+#Description: Simulate a bank account operations using object-oriented programming (OOP).
+#####
+
+import random 
+
+def main():  
+    class BankAccount:
+        def __init__(self, name, accountType, balance = 0):
+            self.name = name
+            self.accountType = accountType
+            self.balance = balance
+            self.accountNumber = random.randrange(10000000,99999999)
+            self.filename=str(self.accountNumber)+"_"+self.accountType+"_"+self.name+".txt"
+            self.file = open(self.filename, "w")
+            self.file.close()
+        def getBalance(self):
+            return self.balance
+        def getName(self):
+            return self.name
+        def getType(self):
+            return self.accountType
+        def getAccID(self):
+            return self.accountNumber
+    
+    def Deposit (Client, addMoney =0 ):
+        Client.file = open(Client.filename, "a")
+        Client.file.write("Deposit:\t\t+$"+str(addMoney)+"\n")
+        Client.file.close()
+        Client.balance += addMoney
+    
+    def Withdraw (Client, subMoney =0 ):
+        if (subMoney > Client.balance):
+            Client.file = open(Client.filename, "a")
+            Client.file.write("****Insufficient Funds to Withdrawal\n")
+            Client.file.write("****Current Balance:\t$"+str(Client.balance)+"\n")
+            Client.file.write("****Withdrawal Requet:\t$"+str(subMoney)+"\n")
+            Client.file.close()
+        else:
+            Client.file = open(Client.filename, "a")
+            Client.file.write("Withdrawal:\t-$"+str(subMoney)+"\n")
+            Client.file.close()
+            Client.balance -= subMoney
+    
+    def ClientInfo (Client):
+        print ("-----------------")
+        print ("Name:\t\t",Client.getName())
+        print ("Account Type:\t",Client.getType())
+        print ("Account ID:\t",Client.getAccID())
+    
+    def Balance (Client):
+        print ("Balance:\t\t$",Client.getBalance(),"\n")
+    
+    def History (Client):
+        print ("Transaction History:")
+        Client.file = open(Client.filename, "r")
+        Client.lines= Client.file.readlines() 
+        for line in Client.lines:  
+            print(line) 
+        Client.file.close()
+    
+    Client1 = BankAccount("John","Chequing",23000)
+    ClientInfo(Client1)
+    Balance(Client1)
+    Withdraw(Client1,999)
+    Withdraw(Client1)
+    Deposit(Client1,2500)
+    Withdraw(Client1, 200)
+    Withdraw(Client1, 30000)
+    Deposit(Client1, 500)
+    Withdraw(Client1,300)
+    Deposit(Client1,20000)
+    Withdraw(Client1,2000)
+    Withdraw(Client1, 55000)
+    History(Client1)
+    Balance(Client1)
+        
+    Client2 = BankAccount("Jenna","Saving")
+    ClientInfo(Client2)
+    Balance(Client2)
+    Withdraw(Client2,200)
+    Deposit(Client2,7000)
+    Deposit(Client2,3000)
+    Withdraw(Client2,2000)
+    Deposit(Client2,1200)
+    History(Client2)
+    Balance(Client2)
+    
+    Client3 = BankAccount("Micheal","Chequing", 80000)
+    ClientInfo(Client3)
+    Balance(Client3)
+    Withdraw(Client3,200)
+    Deposit(Client3,500)
+    History(Client3)
+    Balance(Client3)
+main() 
